@@ -10,14 +10,12 @@
     </head>
 
     <body>
-        <h1>Home Page :D</h1>
-        <br><br><br>
-        <div class="opciones">
-            <a href="juego.html"><button id="iniciar-juego">Iniciar Juego</button></a>
-            <br><br>
-            <button id="agregar-palabra">Agregar nueva palabra</button>
-        </div>
+        <canvas id="tablero" width="800" height="500"></canvas>
     </body>
-
-    <script src="js/main.js"></script>
+    <script>
+        var board = document.querySelector("#tablero");
+        var brush = board.getContext("2d");
+        brush.fillStyle = "gray";
+        brush.fillRect(0, 0, 1200, 800);
+    </script>
 </html>

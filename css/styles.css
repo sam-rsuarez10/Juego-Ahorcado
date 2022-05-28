@@ -1,0 +1,13 @@
+
+.opciones{
+    position: absolute;
+    left: 600px;
+    top: 350px;
+}
+
+#tablero{
+    position: absolute;
+    top: 50px;
+    left: 368px;
+}
+
