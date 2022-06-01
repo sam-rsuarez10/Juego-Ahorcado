@@ -1,13 +1,24 @@
+// Palabras iniciales
+var palabras_disponibles = ['ALURA', 'AHORCADO', 'SOFTWARE', 'DEVELOPER']
+var begin_game = document.querySelector("#iniciar-juego");
+
+// Seleccionar palabra aleatoria del array de palabras disponibles
+var selected_word = seleccionar_palabra(palabras_disponibles);
+console.log(selected_word);
+
+
+
 // Creación tablero de juego
 var board = document.querySelector("#tablero");
 var brush = board.getContext("2d");
 brush.fillStyle = "lightgray";
 brush.fillRect(0, 0, 800, 500);
 
-// Palabras iniciales
-palabras_disponibles = ['alura', 'ahorcado', 'software', 'developer']
+// Despliegue de los guiones de la palabra
+desplegar_palabra(selected_word);
 
-desplegar_palabra('ahorcado');
+
+// funciones
 function desplegar_palabra(palabra){
     /* Función que recibe como parámetro una palabra y 
     despliega los guiones correspondientes al largo de dicha palabra */
@@ -33,5 +44,12 @@ function centrar_guiones(len_guion, len_espacio, nro_letras, max_lenght){
     let largo_total = len_guion*nro_letras + len_espacio*(nro_letras-1); // largo que ocupan los guiones y espacios entre medio
     let x_ideal = (max_lenght-largo_total) / 2;
     return x_ideal;
+}
+
+function seleccionar_palabra(palabras){
+    /* Dado un array de palabras selecciona aleatoriamente una palabra */
+    let max_index = palabras.length - 1;
+    let index_palabra = Math.round(Math.random()*max_index);
+    return palabras[index_palabra];
 }
 
