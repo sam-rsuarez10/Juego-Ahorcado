@@ -18,32 +18,6 @@ brush.fillRect(0, 0, 800, 500);
 desplegar_palabra(selected_word);
 
 
-document.addEventListener("keydown", function(event){
-    var key_value = event.key;
-    console.log(key_value.charCodeAt());
-    var cont_correcto = 0; // contador que indicará el avance de la palabra
-    var cont_incorrecto = 0; //  contador que indicará el avance de la horca
-
-    /*if (!verificar_key(key_value)){
-        // break;
-        console.log("not printable");
-    } else{
-        console.log("printable");
-    }*/
-
-    if (!verificar_simbolo(key_value)){
-        // break
-        console.log("No es una letra");
-    } else {
-        console.log("Es una letra");
-    }
-
-    /*while(cont_incorrecto < 9 || cont_correcto < selected_word.length){
-        // code
-    }*/
-});
-
-
 // funciones
 function desplegar_palabra(palabra){
     /* Función que recibe como parámetro una palabra y 
@@ -79,56 +53,4 @@ function seleccionar_palabra(palabras){
     return palabras[index_palabra];
 }
 
-function verificar_key(key){
-    // Función que retorna true si la tecla presionada es un símbolo que se pueda imprimir
-    if (key.length == 1){
-        // es un símbolo que se puede imprimir
-        return true
-    } else{
-        return false;
-    }
-}
-
-function verificar_simbolo(key){
-    // Función que retorna true si el símbolo es una letra
-    var key_ascii = key.charCodeAt();
-    if (key_ascii >= 65 && key_ascii <= 90){
-        // símbolo es una letra mayúscula
-        return true;
-    } else if (key_ascii >= 97 && key_ascii <= 122){
-        // símolo es una letra minúscula
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function verificar_letra(key, palabra){
-    // Función que verifica si una letra está en la palabra pasada como parámetro y realiza las acciones correspondientes
-    var letra_mayuscula = key.toUpperCase();
-    var expresion = new RegExp(letra_mayuscula, "g");
-
-    if(!expresion.test(palabra)){
-        // letra no pertenece a la palabra
-        dibujar_letra_incorrecta(letra_mayuscula);
-        //dibujar_horca()
-    } else {
-        // letra pertenece a la palabra, ahora se procede a evaluar cuántas veces está contenida en la palabra
-        while(expresion.exec(palabra) != null){
-            dibujar_letra_correcta(letra_mayuscula);
-        }
-    }
-}
-
-function dibujar_letra_correcta(letra){
-    // code
-}
-
-function dibujar_letra_incorrecta(letra){
-    // code
-}
-
-function dibujar_horca(letra, contador){
-    // code
-}
 
