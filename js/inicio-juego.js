@@ -14,21 +14,25 @@ var brush = board.getContext("2d");
 brush.fillStyle = "lightgray";
 brush.fillRect(0, 0, 800, 500);
 
-// Despliegue de los guiones de la palabra
-desplegar_palabra(selected_word);
+// Despliegue de los guiones de la palabra y guardado de las coordenadas de cada guión
+var coordenadas_guiones = desplegar_palabra(selected_word); // array que almacena la coordenada x de inicio de cada guión de la palabra
 
 
 // funciones
 function desplegar_palabra(palabra){
-    /* Función que recibe como parámetro una palabra y 
-    despliega los guiones correspondientes al largo de dicha palabra */
+    /* Función que recibe como parámetro una palabra,
+    despliega los guiones correspondientes al largo de dicha palabra y retorna
+    un array de la coordenada x de inicio de cada guión*/
     let word_size = palabra.length;
     let x = centrar_guiones(20, 10, word_size, 800);
     let y = 400;
+    let array_x = [];
     for(let i=0; i < word_size; i++){
         dibujar_linea(x, y);
+        array_x.push(x);
         x += 30;
     }
+    return array_x;
 }
 
 function dibujar_linea(x, y){

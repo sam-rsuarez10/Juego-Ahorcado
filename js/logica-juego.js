@@ -1,8 +1,11 @@
 var cont_correcto = 0; // contador que indicará el avance de la palabra
 var cont_incorrecto = 0; //  contador que indicará el avance de la horca
+var letras_faltantes = [] // array booleano que servirá para indicar si un guión está vacío o ya tiene una letra
+incializar_array_indicador(letras_faltantes, selected_word);
 console.log(selected_word);
 console.log(cont_correcto);
 console.log(cont_incorrecto);
+
 
 document.addEventListener("keydown", function(event){
     var key_value = event.key;
@@ -20,7 +23,7 @@ document.addEventListener("keydown", function(event){
                 var ocurrencias = evaluar_ocurrencias(letra_mayuscula, selected_word);
                 var cont_aux = 1; // contador auxiliar que ayudará a iterar por cada ocurrencia encontrada
                 while(cont_aux <= ocurrencias){
-                    dibujar_letra_correcta(letra_mayuscula);
+                    dibujar_letra_correcta(letra_mayuscula, selected_word, coordenadas_guiones, letras_faltantes);
                     cont_correcto++;
                     cont_aux++;
                 }
@@ -92,10 +95,23 @@ function dibujar_horca(letra, contador){
     console.log("dibujando horca");
 }
 
-function dibujar_letra_correcta(letra){
-    console.log("Acertaste");
+function dibujar_letra_correcta(letra, palabra, coordenadas_x, espacios_disponibles){
+    var y = 390;
+    for(var i = 0; i < palabra.length; i++){
+        if(letra == palabra[i] && espacios_disponibles[i] == false){
+            dibujar_letra(letra, coordenadas_x[i], y);
+            espacios_disponibles[i] = true;
+        }
+    }
 }
 
+function dibujar_letra(letra, x, y){
+    // Función que dibuja una letra en el tablero
+    var pencil = board.getContext("2d");
+    pencil.font = "20px Arial";
+    pencil.fillStyle = "black";
+    pencil.fillText(letra, x, y);
+}
 function evaluar_ocurrencias(letra, palabra){
     // Función que retorna la cantidad de veces que aparece una letra en la palabra
     var cont = 0;
@@ -105,4 +121,11 @@ function evaluar_ocurrencias(letra, palabra){
         }
     }
     return cont;
+}
+
+function incializar_array_indicador(arreglo, palabra){
+    // Función que inicializa el arreglo de letras faltantes con false proporcional al largo de la palabra
+    for(var i = 0; i < palabra.length; i++){
+        arreglo.push(false);
+    }
 }
