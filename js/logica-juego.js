@@ -27,8 +27,8 @@ document.addEventListener("keydown", function(event){
             } else {
                 // letra no está contenida en la palabra
                 dibujar_letra_incorrecta(letra_mayuscula);
-                //dibujar_horca()
                 cont_incorrecto++;
+                dibujar_horca(letra_mayuscula, cont_incorrecto);
             }
 
             console.log(cont_correcto);
@@ -89,7 +89,7 @@ function dibujar_letra_incorrecta(letra){
 }
 
 function dibujar_horca(letra, contador){
-    // code
+    console.log("dibujando horca");
 }
 
 function dibujar_letra_correcta(letra){
