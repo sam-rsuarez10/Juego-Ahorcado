@@ -1,6 +1,8 @@
 var cont_correcto = 0; // contador que indicará el avance de la palabra
 var cont_incorrecto = 0; //  contador que indicará el avance de la horca
 var letras_faltantes = [] // array booleano que servirá para indicar si un guión está vacío o ya tiene una letra
+var letras_incorrectas = [] // array que servirá para almacenar las letras incorrectas ya ingresadas
+var x_inicial_letra_incorrecta = 50;
 incializar_array_indicador(letras_faltantes, selected_word);
 console.log(selected_word);
 console.log(cont_correcto);
@@ -29,9 +31,14 @@ document.addEventListener("keydown", function(event){
                 }
             } else {
                 // letra no está contenida en la palabra
-                dibujar_letra_incorrecta(letra_mayuscula);
-                cont_incorrecto++;
-                dibujar_horca(letra_mayuscula, cont_incorrecto);
+                if(!verificar_ingreso_letra(letra_mayuscula, letras_incorrectas)){
+                    // Letra no ha sido ingresada previamente
+                    letras_incorrectas.push(letra_mayuscula);
+                    dibujar_letra_incorrecta(letra_mayuscula, x_inicial_letra_incorrecta);
+                    x_inicial_letra_incorrecta += 20;
+                    cont_incorrecto++;
+                    //dibujar_horca(letra_mayuscula, cont_incorrecto);
+                }
             }
 
             console.log(cont_correcto);
@@ -87,8 +94,21 @@ function verificar_letra(palabra, exp){
     }
 }
 
-function dibujar_letra_incorrecta(letra){
-    console.log("Te equivocaste");
+function dibujar_letra_incorrecta(letra, coordenada_x){
+    var y = 450;
+    dibujar_letra(letra, coordenada_x,y);
+}
+
+function verificar_ingreso_letra(letra, array_letras){
+    // Función que verifica si una letra incorrecta ya fue ingresada
+    for(var i = 0; i < array_letras.length; i++){
+        if(array_letras[i] == letra){
+            // Letra ya ha sido ingresada
+            return true;
+        }
+    }
+
+    return false;
 }
 
 function dibujar_horca(letra, contador){
