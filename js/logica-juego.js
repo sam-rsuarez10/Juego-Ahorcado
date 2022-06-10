@@ -4,14 +4,13 @@ var letras_faltantes = [] // array booleano que servirá para indicar si un gui�
 var letras_incorrectas = [] // array que servirá para almacenar las letras incorrectas ya ingresadas
 var x_inicial_letra_incorrecta = 50;
 incializar_array_indicador(letras_faltantes, selected_word);
+dibujar_horca(cont_incorrecto); // base de la horca
 console.log(selected_word);
-console.log(cont_correcto);
-console.log(cont_incorrecto);
+
 
 
 document.addEventListener("keydown", function(event){
     var key_value = event.key;
-    console.log(key_value);
      // Se verifica que la tecla presionada sea un símbolo que se pueda imprimir
     if (verificar_key(key_value)){
         // Se verifica que el símbolo sea una letra
@@ -37,12 +36,9 @@ document.addEventListener("keydown", function(event){
                     dibujar_letra_incorrecta(letra_mayuscula, x_inicial_letra_incorrecta);
                     x_inicial_letra_incorrecta += 20;
                     cont_incorrecto++;
-                    //dibujar_horca(letra_mayuscula, cont_incorrecto);
+                    dibujar_horca(cont_incorrecto);
                 }
             }
-
-            console.log(cont_correcto);
-            console.log(cont_incorrecto);
 
             if(cont_incorrecto == 9){
             console.log("Perdiste :(");
@@ -111,8 +107,84 @@ function verificar_ingreso_letra(letra, array_letras){
     return false;
 }
 
-function dibujar_horca(letra, contador){
-    console.log("dibujando horca");
+function dibujar_horca(contador){
+    // Función que dibuja parte correspondiente de la horca dado el contador
+    var pencil = board.getContext("2d");
+    var x;
+    var y;
+    pencil.beginPath();
+    if(contador == 0){
+        // base de la horca
+        x = 300;
+        y = 325;
+        pencil.moveTo(x, y);
+        pencil.lineTo(x+200, y);
+        pencil.stroke();
+    } else if(contador == 1){
+        // parte vertical de la horca
+        x = 300;
+        y = 325;
+        pencil.moveTo(x, y);
+        pencil.lineTo(x, y-300);
+        pencil.stroke();
+    } else if (contador == 2){
+        // parte horizontal superior de la horca
+        x = 300,
+        y = 25;
+        pencil.moveTo(x, y);
+        pencil.lineTo(x+100, y);
+        pencil.stroke();
+    } else if(contador == 3){
+        // parte final de la horca
+        x = 400;
+        y = 25;
+        pencil.moveTo(x, y);
+        pencil.lineTo(x, y+50);
+        pencil.stroke();
+    } else if(contador == 4){
+        // cabeza
+        x = 400;
+        y = 100;
+        pencil.arc(x, y, 25, 0, 2*3.14);
+        pencil.stroke();
+    } else if(contador == 5){
+        // tronco
+        x = 400;
+        y = 125;
+        pencil.moveTo(x, y);
+        pencil.lineTo(400, y+125);
+        pencil.stroke();
+    } else if(contador == 6){
+        // pierna izquierda
+        x = 400;
+        y = 250;
+        pencil.moveTo(x, y);
+        pencil.lineTo(x-50, y+50);
+        pencil.stroke();
+    } else if( contador == 7){
+        // pierna derecha
+        x = 400;
+        y = 250;
+        pencil.moveTo(x, y);
+        pencil.lineTo(x+50, y+50);
+        pencil.stroke();
+    } else if (contador == 8){
+        // brazo izquierdo
+        x = 400;
+        y = 150;
+        pencil.moveTo(x, y);
+        pencil.lineTo(x-50, y+50);
+        pencil.stroke();
+    } else if (contador == 9){
+        // brazo derecho
+        x = 400;
+        y = 150;
+        pencil.moveTo(x, y);
+        pencil.lineTo(x+50, y+50);
+        pencil.stroke();
+    }
+
+    
 }
 
 function dibujar_letra_correcta(letra, palabra, coordenadas_x, espacios_disponibles){
