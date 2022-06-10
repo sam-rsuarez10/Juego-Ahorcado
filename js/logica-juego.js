@@ -41,11 +41,11 @@ document.addEventListener("keydown", function(event){
             }
 
             if(cont_incorrecto == 9){
-            console.log("Perdiste :(");
+                desplegar_mensaje_final('L');
             }
 
             if(cont_correcto == selected_word.length){
-            console.log("Ganaste :D");
+                desplegar_mensaje_final('W');
             }
         }
     }
@@ -220,4 +220,21 @@ function incializar_array_indicador(arreglo, palabra){
     for(var i = 0; i < palabra.length; i++){
         arreglo.push(false);
     }
+}
+
+function desplegar_mensaje_final(flag){
+    /* Función que despliega mensaje final del juego de acuerdo al flag que se pasa como parámetro 
+    flag = 'W' --> el usuario ganó el juego
+    flag = 'L' --> el usuario perdió el juego*/
+    var pencil = board.getContext("2d");
+    var mensaje;
+    pencil.font = "20px Arial";
+    if(flag == 'W'){
+        pencil.fillStyle = 'green';
+        mensaje = "Ganaste :D";
+    } else {
+        pencil.fillStyle = 'red';
+        mensaje = 'Game over :('
+    }
+    pencil.fillText(mensaje, 100, 100);
 }
