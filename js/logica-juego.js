@@ -5,7 +5,6 @@ var letras_incorrectas = [] // array que servirá para almacenar las letras inco
 var x_inicial_letra_incorrecta = 50;
 incializar_array_indicador(letras_faltantes, selected_word);
 dibujar_horca(cont_incorrecto); // base de la horca
-console.log(selected_word);
 
 
 
