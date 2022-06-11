@@ -1,5 +1,6 @@
 // Palabras iniciales
-var palabras_disponibles = ['ALURA', 'AHORCADO', 'SOFTWARE', 'DEVELOPER']
+var palabras_disponibles = ['ALURA', 'AHORCADO', 'SOFTWARE', 'DEVELOPER', 'BACKEND', 'FRONTEND', 'PYTHON',
+                            'JAVA', 'JAVASCRIPT', 'ORACLE', 'POSTGRESQL'];
 var begin_game = document.querySelector("#iniciar-juego");
 var body = document.querySelector("#body-juego");
 
@@ -11,7 +12,7 @@ var selected_word = seleccionar_palabra(palabras_disponibles);
 // Creación tablero de juego
 var board = document.querySelector("#tablero");
 var brush = board.getContext("2d");
-brush.fillStyle = "lightgray";
+brush.fillStyle = "#F3F5FC";
 brush.fillRect(0, 0, 800, 500);
 
 // Despliegue de los guiones de la palabra y guardado de las coordenadas de cada guión
@@ -40,6 +41,8 @@ function dibujar_linea(x, y){
     brush.beginPath();
     brush.moveTo(x, y);
     brush.lineTo(x+20, y);
+    brush.lineWidth = 6;
+    brush.strokeStyle = "#072B61"
     brush.stroke()
 }
 

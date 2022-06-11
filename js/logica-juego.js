@@ -10,7 +10,7 @@ dibujar_horca(cont_incorrecto); // base de la horca
 
 document.addEventListener("keydown", function(event){
     var key_value = event.key;
-     // Se verifica que la tecla presionada sea un símbolo que se pueda imprimir
+    // Se verifica que la tecla presionada sea un símbolo que se pueda imprimir
     if (verificar_key(key_value)){
         // Se verifica que el símbolo sea una letra
         if (verificar_simbolo(key_value)){
@@ -200,7 +200,7 @@ function dibujar_letra(letra, x, y){
     // Función que dibuja una letra en el tablero
     var pencil = board.getContext("2d");
     pencil.font = "20px Arial";
-    pencil.fillStyle = "black";
+    pencil.fillStyle = "#072B61";
     pencil.fillText(letra, x, y);
 }
 function evaluar_ocurrencias(letra, palabra){
