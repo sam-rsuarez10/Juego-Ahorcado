@@ -1,8 +1,9 @@
-var cont_correcto = 0; // contador que indicará el avance de la palabra
+
 var cont_incorrecto = 0; //  contador que indicará el avance de la horca
 var letras_faltantes = [] // array booleano que servirá para indicar si un guión está vacío o ya tiene una letra
 var letras_incorrectas = [] // array que servirá para almacenar las letras incorrectas ya ingresadas
 var x_inicial_letra_incorrecta = 50;
+var endgame = [false, '']; // arreglo que indica estado del juego, primer elemento indica si el juego ha terminado y el segundo si el usuario ha ganado o perdido
 incializar_array_indicador(letras_faltantes, selected_word);
 dibujar_horca(cont_incorrecto); // base de la horca
 
@@ -10,43 +11,50 @@ dibujar_horca(cont_incorrecto); // base de la horca
 
 document.addEventListener("keydown", function(event){
     var key_value = event.key;
-    // Se verifica que la tecla presionada sea un símbolo que se pueda imprimir
-    if (verificar_key(key_value)){
-        // Se verifica que el símbolo sea una letra
-        if (verificar_simbolo(key_value)){
-            var letra_mayuscula = key_value.toUpperCase();
-            var expresion = new RegExp(letra_mayuscula, "g");
+    var endgame = verificar_endgame(letras_faltantes, cont_incorrecto);
 
-            // Se procede a verificar que la letra está contenida dentro de la palabra seleccionada
-            if(verificar_letra(selected_word, expresion)){
-                // letra está contenida en la palabra, se procede a evaluar cuántas veces está
-                var ocurrencias = evaluar_ocurrencias(letra_mayuscula, selected_word);
-                var cont_aux = 1; // contador auxiliar que ayudará a iterar por cada ocurrencia encontrada
-                while(cont_aux <= ocurrencias){
-                    dibujar_letra_correcta(letra_mayuscula, selected_word, coordenadas_guiones, letras_faltantes);
-                    cont_correcto++;
-                    cont_aux++;
+    if(!endgame[0]){
+        // juego no ha terminado
+        // Se verifica que la tecla presionada sea un símbolo que se pueda imprimir
+        if (verificar_key(key_value)){
+            // Se verifica que el símbolo sea una letra
+            if (verificar_simbolo(key_value)){
+                var letra_mayuscula = key_value.toUpperCase();
+                var expresion = new RegExp(letra_mayuscula, "g");
+
+                // Se procede a verificar que la letra está contenida dentro de la palabra seleccionada
+                if(verificar_letra(selected_word, expresion)){
+                    // letra está contenida en la palabra, se procede a evaluar cuántas veces está
+                    var ocurrencias = evaluar_ocurrencias(letra_mayuscula, selected_word);
+                    var cont_aux = 1; // contador auxiliar que ayudará a iterar por cada ocurrencia encontrada
+                    while(cont_aux <= ocurrencias){
+                        dibujar_letra_correcta(letra_mayuscula, selected_word, coordenadas_guiones, letras_faltantes);
+                        cont_aux++;
+                    }
+                } else {
+                    // letra no está contenida en la palabra
+                    if(!verificar_ingreso_letra(letra_mayuscula, letras_incorrectas)){
+                        // Letra no ha sido ingresada previamente
+                        letras_incorrectas.push(letra_mayuscula);
+                        dibujar_letra_incorrecta(letra_mayuscula, x_inicial_letra_incorrecta);
+                        x_inicial_letra_incorrecta += 20;
+                        cont_incorrecto++;
+                        dibujar_horca(cont_incorrecto);
+                    }
                 }
-            } else {
-                // letra no está contenida en la palabra
-                if(!verificar_ingreso_letra(letra_mayuscula, letras_incorrectas)){
-                    // Letra no ha sido ingresada previamente
-                    letras_incorrectas.push(letra_mayuscula);
-                    dibujar_letra_incorrecta(letra_mayuscula, x_inicial_letra_incorrecta);
-                    x_inicial_letra_incorrecta += 20;
-                    cont_incorrecto++;
-                    dibujar_horca(cont_incorrecto);
+
+                // se vuelve a evaluar estado del juego
+                endgame = verificar_endgame(letras_faltantes, cont_incorrecto);
+                if(endgame[0] && endgame[1] == 'L'){
+                    desplegar_mensaje_final('L');
+                } else if (endgame[0] && endgame[1] == 'W'){
+                    desplegar_mensaje_final('W');
                 }
-            }
-
-            if(cont_incorrecto == 9){
-                desplegar_mensaje_final('L');
-            }
-
-            if(cont_correcto == selected_word.length){
-                desplegar_mensaje_final('W');
             }
         }
+    } else{
+        // juego ha terminado
+        alert("Partida finalizada, elija 'Nuevo juego o 'Desistir'");
     }
 });
 
@@ -236,4 +244,29 @@ function desplegar_mensaje_final(flag){
         mensaje = 'Game over :('
     }
     pencil.fillText(mensaje, 100, 100);
+}
+
+function verificar_endgame(array_letras, cont_i){
+    // Función que determina el estado del juego
+    var words_left = false; // se supone que ya se adivinó la palabra
+
+    // se recorre el arreglo que indica el estado de los guiones
+    for(var i = 0; i < array_letras.length; i++){
+        if(!array_letras[i]){
+            // todavía faltan letras para adivinar
+            words_left = true;
+            break;
+        }
+    }
+
+    if(cont_i == 9  && words_left){
+        // usuario perdió
+        return [true, 'L'];
+    }  else if(cont_i < 9 && !words_left){
+        // usuario ganó
+        return [true, 'W'];
+    } else {
+        // el juego continúa
+        return [false, ''];
+    }
 }
